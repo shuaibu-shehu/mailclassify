@@ -1,27 +1,24 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "./ui/button";
-import Link from "next/link";
-import { LogOut, MenuIcon, User2 } from "lucide-react";
-import { auth } from "@/auth";
+import { ArrowBigLeft, LogOut, User2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { test } from "@/lib/actions/test";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getMails } from "@/lib/actions/getMails";
 import { useAppState } from "@/lib/providers/app-state";
 import { mailType } from "./mail-lists";
 import { getCategories } from "@/lib/actions/getCategories";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export function Navbar() {
   const user = useSession().data?.user || null;
   const {dispatch, state} = useAppState()  
   const session = useSession();
   const router = useRouter();
+  const pathname = usePathname()
   if(!session.data?.user){
     router.push('/')
   }
@@ -41,6 +38,8 @@ export function Navbar() {
     }
     fetchMails()
   }, []);
+  console.log(pathname);
+  
 
   return (
     <div className=" max-w-5xl top-0  z-[999] bg-gray-900 gap-3 fixed p-3  left-0 right-0 flex flex-col  mx-auto w-full justify-between  ">
@@ -62,6 +61,7 @@ export function Navbar() {
       </div>
 
       <div className=" flex justify-between">
+        <div className=" flex gap-4">
         <Select value={state.maxMails.toString()} onValueChange={async (e)=>{
             
             dispatch({type:'UPDATE_MAX_MAILS', payload:Number(e)})
@@ -74,6 +74,7 @@ export function Navbar() {
             dispatch({type:'SET_LOADING', payload:false})
             
         }}>
+
           <SelectTrigger className="w-[80px]" >
           <SelectValue placeholder="Select" />
           </SelectTrigger>
@@ -86,6 +87,8 @@ export function Navbar() {
               </SelectGroup>
             </SelectContent>
         </Select>
+        {pathname === '/dashboard/email-item' && <Button variant={'ghost'} onClick={()=>router.push('/dashboard')} ><ArrowBigLeft width={60}/></Button>}
+        </div>  
         <Button onClick={ async ()=>{
           console.log('state.mails', state.mails);
           const apiKey = localStorage.getItem('openaiApiKey')
