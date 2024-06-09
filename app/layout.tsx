@@ -23,7 +23,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
       <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -31,11 +30,12 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <AppStateProvider>
+        <SessionProvider session={session}>
         {children}
-        </AppStateProvider>
 
-        </ThemeProvider>
         </SessionProvider>
+        </AppStateProvider>
+        </ThemeProvider>
         </body>
     </html>
   );

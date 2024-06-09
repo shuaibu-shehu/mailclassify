@@ -87,7 +87,6 @@ function parseMessageContent(message:any) {
     body,
     subject,
     snippet,
-    isClassified: false,
     class: ''
   };
 }

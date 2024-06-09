@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align='center'>EmailClassify</h1>
 
-## Getting Started
+## Table of Contents
 
-First, run the development server:
+1. [Project Description](#project-description)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Contributing](#contributing)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Description
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+EmailClassify is a web application that classifies emails into predefined categories such as Important, Promotions, Social, Marketing, Spam, and General. The classification is done using OpenAI's GPT model.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/cms.git
+2. Navigate to the project directory:
+   ```bash
+   cd cms
+3. Copy the example environment variables file and populate the variables:
+    ```bash
+    cp .env.local.example .env
+4. Install the dependencies::
+   ```bash
+    npm install
+5. Run the application:
+    ```bash
+    npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+## Usage
+1. Open your browser and navigate to http://localhost:3000.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Log in using Google authentication.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. Explore the app and classify your emails.
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contributions are welcome! Please fork the repository and submit a pull request.

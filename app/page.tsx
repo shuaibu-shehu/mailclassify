@@ -1,8 +1,5 @@
 import Oauth from "@/components/oauth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import Image from "next/image";
+
 
 export default function Home() {
   return (

@@ -14,10 +14,17 @@ import { useEffect, useState } from "react";
 import { getMails } from "@/lib/actions/getMails";
 import { useAppState } from "@/lib/providers/app-state";
 import { mailType } from "./mail-lists";
+import { getCategories } from "@/lib/actions/getCategories";
+import { useRouter } from "next/navigation";
 
 export function Navbar() {
   const user = useSession().data?.user || null;
   const {dispatch, state} = useAppState()  
+  const session = useSession();
+  const router = useRouter();
+  if(!session.data?.user){
+    router.push('/')
+  }
   
   useEffect(() => {
     const fetchMails = async () => {
@@ -33,13 +40,11 @@ export function Navbar() {
       }
     }
     fetchMails()
-  }, [ state.mails, state.maxMails]);
+  }, []);
 
   return (
-    <div className=" max-w-5xl top-0  gap-3 fixed p-3  left-0 right-0 flex flex-col  mx-auto w-full justify-between  ">
-      
+    <div className=" max-w-5xl top-0  z-[999] bg-gray-900 gap-3 fixed p-3  left-0 right-0 flex flex-col  mx-auto w-full justify-between  ">
       <div className=" flex justify-between">
-
         <div className=" justify-between items-center  flex gap-3">
 
           <Avatar>
@@ -59,14 +64,14 @@ export function Navbar() {
       <div className=" flex justify-between">
         <Select value={state.maxMails.toString()} onValueChange={async (e)=>{
             
-            const {data, error} = await getMails(Number(e))
             dispatch({type:'UPDATE_MAX_MAILS', payload:Number(e)})
-            
-            console.log(data);
-            
-            console.log(state.maxMails);
-            
-            console.log(state.mails);
+            dispatch({type:'SET_LOADING', payload:true})
+            const {data, error} = await getMails(Number(e))
+            // const res =await fetch(`/api/fetch-emails`) //
+            // const data1 = await res.json()
+            // console.log('data 1  ' ,data1);
+            dispatch({type:'SET_MAILS', payload:data as unknown as mailType[]})
+            dispatch({type:'SET_LOADING', payload:false})
             
         }}>
           <SelectTrigger className="w-[80px]" >
@@ -82,8 +87,12 @@ export function Navbar() {
             </SelectContent>
         </Select>
         <Button onClick={ async ()=>{
-          
-          test()
+          console.log('state.mails', state.mails);
+          const apiKey = localStorage.getItem('openaiApiKey')
+          if(!apiKey) return  alert('Please logout and set the openai api key')          
+          const classifiedMaials = await getCategories(state.mails,apiKey)
+          if(classifiedMaials) 
+            dispatch({type:'SET_MAILS', payload:classifiedMaials as unknown as mailType[]})
         }}>Classify</Button>
       </div>
     </div>

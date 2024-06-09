@@ -14,6 +14,8 @@ import React, {
 interface AppState {
     mails: mailType[];
     maxMails: number;
+    isLoading: boolean;
+    selectedMail: mailType | null;
   }
 
   type action = {
@@ -22,12 +24,20 @@ interface AppState {
   } | {
     type: 'UPDATE_MAX_MAILS';
     payload: number;
+  } | {
+    type: 'SET_LOADING';
+    payload: boolean;
+  } |{
+    type: 'SET_SELECTED_MAIL';  
+    payload: mailType | null;
   };
 
 
     const initialState: AppState = {
         mails: [],
         maxMails: 10,
+        isLoading: false,
+        selectedMail: null,
     };
 
 
@@ -38,7 +48,11 @@ interface AppState {
          
           case 'UPDATE_MAX_MAILS':
             return { ...state, maxMails: action.payload};
-            default:
+          case 'SET_LOADING':
+            return { ...state, isLoading: action.payload };
+          case 'SET_SELECTED_MAIL':
+            return { ...state, selectedMail: action.payload };
+          default:
             return state;
         }
       };
